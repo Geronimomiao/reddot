@@ -1,11 +1,11 @@
 const jwt = require('koa-jwt');
 const Route = require('koa-router');
-const router = Route({prefix: '/feedback'});
+const router = Route({prefix: '/feedbacks'});
 
 const {
-  find, findById, create, update,
-  delete: del, login, checkOwner
-} = require('../controllers/user')
+  find, findByUserId, create, update,
+  delete: del, checkOwner
+} = require('../controllers/feedback');
 
 const {secret} = require('../config');
 
@@ -14,16 +14,15 @@ const auth = jwt({secret});
 
 router.get('/', find);
 
-router.get('/:id', findById);
+router.get('/:id', findByUserId);
 
 router.post('/', create);
 
-// 更新用户部分信息
-router.patch('/:id', auth, checkOwner, update);
+router.patch('/:id', update);
 
-router.delete('/:id', auth, checkOwner, del);
+router.delete('/:id', del);
 
-router.post('/login', login);
+
 
 
 module.exports = router;
